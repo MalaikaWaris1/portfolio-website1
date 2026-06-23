@@ -16,6 +16,7 @@ dist-ssr
 .nitro
 *.local
 
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars
@@ -30,5 +31,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+<<<<<<< HEAD
 
+=======
+>>>>>>> a439cadf3a0965add4a1aee87c24610350c54c89
 .env
