@@ -218,8 +218,8 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
             >
               <Typewriter 
                 words={[
-                  "a Web Developer.", 
-                  "a Computer Science Student.", 
+                  "a WebDeveloper.", 
+                  "a CS Student.", 
                   "an AI Enthusiast."
                 ]} 
                 delay={1000} 
