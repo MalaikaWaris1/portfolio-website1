@@ -63,7 +63,7 @@ const Typewriter = ({
   );
 };
 
-// Background Effects Component (Kept exactly as you had it for that beautiful gradient look)
+// Background Effects Component 
 const BackgroundEffects = () => {
   const elements = [
     { type: 'orb', color: 'bg-purple-500/30', size: 'w-64 h-64', top: '5%', left: '5%', duration: 12, delay: 0 },
@@ -152,15 +152,13 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Video viewport mein hai -> Play
             videoRef.current?.play().catch(() => console.log("Autoplay blocked by browser"));
           } else {
-            // User scrolled away -> Pause
             videoRef.current?.pause();
           }
         });
       },
-      { threshold: 0.4 } // Trigger when 40% of the section is visible
+      { threshold: 0.4 } 
     );
 
     if (sectionRef.current) {
@@ -182,7 +180,7 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
   return (
     <section 
       id="home" 
-      ref={sectionRef} // 👈 Added Ref to detect scroll
+      ref={sectionRef} 
       className="relative min-h-screen flex items-center pt-28 pb-16 overflow-hidden"
     >
       {/* Base Gradient Background */}
@@ -191,6 +189,59 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
 
       {/* Background Effects */}
       <BackgroundEffects />
+
+      {/* 🟢 NEW RIGHT COLUMN: Professional Full-Space Curved Video (Inspired by Construction Image) */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ ...springTransition, delay: 0.6 }}
+        className="hidden lg:block absolute right-0 top-0 bottom-0 w-[45vw] z-0"
+      >
+        {/* Curved Video Container */}
+        <div className="absolute inset-0 bg-secondary/50 rounded-l-[150px] overflow-hidden border-l-[10px] border-white/20 shadow-2xl">
+          <video
+            ref={videoRef}
+            className="w-full h-full object-cover"
+            loop
+            muted={isMuted}
+            playsInline
+            src="src\public\intro-video.mp4" 
+            poster="/video-thumbnail.jpg"
+          />
+          
+          {/* Subtle dark gradient overlay to make it look professional */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent pointer-events-none" />
+
+          {/* Floating Unmute Toggle Button */}
+          <button 
+            onClick={toggleMute}
+            className="absolute bottom-12 right-12 bg-background/80 backdrop-blur-md p-4 rounded-full hover:bg-background transition-all z-10 flex items-center gap-2 group/btn shadow-xl"
+          >
+            {isMuted ? (
+              <>
+                <VolumeX className="h-6 w-6 text-foreground" />
+                <span className="text-sm text-foreground font-medium w-0 overflow-hidden group-hover/btn:w-auto group-hover/btn:ml-2 transition-all">Listen</span>
+              </>
+            ) : (
+              <Volume2 className="h-6 w-6 text-foreground" />
+            )}
+          </button>
+        </div>
+
+        {/* Overlapping Circular Badge (Like the 2nd Image) */}
+        <motion.div 
+          animate={{ y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+          className="absolute top-1/2 -translate-y-1/2 -left-[70px] w-[140px] h-[140px] bg-background rounded-full border-[8px] border-secondary shadow-2xl flex flex-col items-center justify-center p-2 text-center"
+        >
+          <div className="grid place-items-center w-10 h-10 rounded-full grad-primary text-primary-foreground mb-1">
+            <Sparkles className="h-5 w-5" />
+          </div>
+          <div className="text-[11px] font-bold uppercase tracking-wider text-foreground leading-tight mt-1">
+            Let's build<br/>together
+          </div>
+        </motion.div>
+      </motion.div>
 
       {/* MAIN CONTENT */}
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
@@ -308,63 +359,8 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
             </motion.div>
           </div>
 
-          {/* RIGHT COLUMN: 🟢 Premium Video Player */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, x: 20 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ ...springTransition, delay: 0.6 }}
-            className="hidden lg:flex justify-end relative"
-          >
-            <div className="relative group">
-              {/* Premium Glow Effect Behind Video */}
-              <div className="absolute -inset-1 bg-gradient-to-tr from-primary/30 to-purple-500/30 rounded-[32px] blur-xl group-hover:blur-2xl transition-all duration-500 opacity-70" />
-              
-              {/* Glassmorphism Video Container */}
-              <div className="relative glass-strong rounded-[28px] p-2 shadow-elegant border border-white/10 backdrop-blur-md">
-                <div className="relative overflow-hidden rounded-[20px] w-[280px] h-[480px] bg-secondary/50">
-                  <video
-                    ref={videoRef}
-                    className="w-full h-full object-cover"
-                    loop
-                    muted={isMuted} // Default muted for autoplay policies
-                    playsInline
-                    src="src\public\intro-video.mp4" // 👈 YAHAN APNI VIDEO KA PATH DIJIYE GA
-                    poster="/video-thumbnail.jpg" // Optional: Video load hone se pehle ka image
-                  />
-                  
-                  {/* Floating Unmute Toggle Button */}
-                  <button 
-                    onClick={toggleMute}
-                    className="absolute bottom-4 right-4 glass-strong p-3 rounded-full hover:bg-white/20 transition-all z-10 flex items-center gap-2 group/btn"
-                  >
-                    {isMuted ? (
-                      <>
-                        <VolumeX className="h-5 w-5 text-white" />
-                        <span className="text-xs text-white font-medium w-0 overflow-hidden group-hover/btn:w-auto group-hover/btn:ml-1 transition-all">Listen</span>
-                      </>
-                    ) : (
-                      <Volume2 className="h-5 w-5 text-white" />
-                    )}
-                  </button>
-
-                  {/* Gradient overlay at bottom for better button visibility */}
-                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-                </div>
-              </div>
-
-              {/* Decorative Floating Element near Video */}
-              <motion.div 
-                animate={{ y: [0, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                className="absolute -left-12 bottom-12 glass rounded-xl p-3 flex items-center gap-3 shadow-lg"
-              >
-                <div className="grid place-items-center w-8 h-8 rounded-full grad-primary text-primary-foreground">
-                  <Sparkles className="h-4 w-4" />
-                </div>
-                <div className="text-xs font-medium">Let's build<br/>together</div>
-              </motion.div>
-            </div>
-          </motion.div>
+          {/* RIGHT COLUMN PLACEHOLDER: Ye khaali div grid ke layout ko perfectly balance rakhega bina text hide kiye */}
+          <div className="hidden lg:block" aria-hidden="true" />
           
         </div>
       </div>
