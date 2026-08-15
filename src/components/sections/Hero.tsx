@@ -328,7 +328,7 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
                     loop
                     muted={isMuted} // Default muted for autoplay policies
                     playsInline
-                    src="/intro-video.mp4" // 👈 YAHAN APNI VIDEO KA PATH DIJIYE GA
+                    src="src\public\intro-video.mp4" // 👈 YAHAN APNI VIDEO KA PATH DIJIYE GA
                     poster="/video-thumbnail.jpg" // Optional: Video load hone se pehle ka image
                   />
                   
