@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Download, Mail, Sparkles, Github, Linkedin, Volume2, VolumeX } from "lucide-react";
 import type { AboutContent, Resume } from "@/lib/portfolio";
+// Hero.tsx ke shuru mein baqi imports ke sath yeh add karein
+import introVideo from "../../public/intro-video.mp4";
 
 // Typewriter Component
 const Typewriter = ({
@@ -30,12 +32,12 @@ const Typewriter = ({
   useEffect(() => {
     if (isWaiting) return;
     const word = words[currentWordIndex];
-    
+
     const timer = setTimeout(() => {
       if (!isDeleting) {
         setDisplayedText(word.substring(0, displayedText.length + 1));
         if (displayedText.length === word.length && loop) {
-          setTimeout(() => setIsDeleting(true), 2500); 
+          setTimeout(() => setIsDeleting(true), 2500);
         }
       } else {
         setDisplayedText(word.substring(0, displayedText.length - 1));
@@ -44,7 +46,7 @@ const Typewriter = ({
           setCurrentWordIndex((prev) => (prev + 1) % words.length);
         }
       }
-    }, isDeleting ? 60 : 120); 
+    }, isDeleting ? 60 : 120);
 
     return () => clearTimeout(timer);
   }, [displayedText, isDeleting, words, currentWordIndex, isWaiting, loop]);
@@ -140,7 +142,7 @@ const BackgroundEffects = () => {
 
 export function Hero({ about, resume }: { about: AboutContent | null; resume: Resume | null }) {
   const springTransition = { type: "spring", stiffness: 100, damping: 20 } as const;
-  
+
   // 🟢 Video Logic Hooks
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -158,7 +160,7 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
           }
         });
       },
-      { threshold: 0.4 } 
+      { threshold: 0.4 }
     );
 
     if (sectionRef.current) {
@@ -178,9 +180,9 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
   };
 
   return (
-    <section 
-      id="home" 
-      ref={sectionRef} 
+    <section
+      id="home"
+      ref={sectionRef}
       className="relative min-h-screen flex items-center pt-28 pb-16 overflow-hidden"
     >
       {/* Base Gradient Background */}
@@ -206,14 +208,14 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
             muted={isMuted}
             playsInline
             autoPlay
-            src="/intro-video.mp4" /* 🟢 PATH CORRECTED HERE */
+            src={introVideo}  {/* 🟢 Yahan string ki jagah imported variable lagayen */}
             poster="/video-thumbnail.jpg"
           />
-          
+
           <div className="absolute inset-0 bg-gradient-to-t from-background/30 to-transparent pointer-events-none" />
 
           {/* Clean, Visible Unmute Button (Bottom Right) */}
-          <button 
+          <button
             onClick={toggleMute}
             className="absolute bottom-8 right-10 w-14 h-14 bg-background text-foreground hover:bg-muted shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-full flex items-center justify-center transition-all z-10"
             aria-label={isMuted ? "Unmute video" : "Mute video"}
@@ -227,7 +229,7 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
         </div>
 
         {/* Overlapping Circular Badge */}
-        <motion.div 
+        <motion.div
           animate={{ y: [0, -8, 0] }}
           transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
           className="absolute top-[40%] -translate-y-1/2 -left-[60px] w-[120px] h-[120px] bg-background rounded-full border-[8px] border-secondary/50 shadow-2xl flex flex-col items-center justify-center p-2 text-center"
@@ -236,7 +238,7 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
             <Sparkles className="h-4 w-4" />
           </div>
           <div className="text-[10px] font-bold uppercase tracking-wider text-foreground leading-tight mt-1">
-            Let's build<br/>together
+            Let's build<br />together
           </div>
         </motion.div>
       </motion.div>
@@ -244,7 +246,7 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
       {/* MAIN CONTENT */}
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          
+
           {/* LEFT COLUMN: Text Content */}
           <div className="max-w-3xl">
             {/* Top Badge */}
@@ -265,7 +267,7 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
 
             {/* Main Heading */}
             <h1 className="mt-6 font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] tracking-tight flex flex-col gap-1 sm:gap-2">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ...springTransition, delay: 0.2 }}
@@ -275,18 +277,18 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
                 <span className="text-gradient pb-1">Malaika Waris</span>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ ...springTransition, delay: 0.3 }}
                 className="flex items-center"
               >
-                <Typewriter 
-                  words={["a Web Developer.", "a CS Student.", "an AI Enthusiast."]} 
-                  delay={1000} 
-                  loop={true} 
-                  className="text-foreground/90 pb-1" 
-                  cursorColor="bg-foreground/70" 
+                <Typewriter
+                  words={["a Web Developer.", "a CS Student.", "an AI Enthusiast."]}
+                  delay={1000}
+                  loop={true}
+                  className="text-foreground/90 pb-1"
+                  cursorColor="bg-foreground/70"
                 />
               </motion.div>
             </h1>
@@ -295,7 +297,7 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ ...springTransition, delay: 0.4 }} 
+              transition={{ ...springTransition, delay: 0.4 }}
               className="mt-6 max-w-xl text-base sm:text-lg text-muted-foreground"
             >
               Web Developer & Computer Science student crafting modern, performant, and delightful
@@ -359,7 +361,7 @@ export function Hero({ about, resume }: { about: AboutContent | null; resume: Re
 
           {/* RIGHT COLUMN PLACEHOLDER */}
           <div className="hidden lg:block" aria-hidden="true" />
-          
+
         </div>
       </div>
     </section>
